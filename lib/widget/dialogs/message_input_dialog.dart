@@ -13,13 +13,11 @@ class MessageInputDialog extends StatefulWidget {
 
 class _MessageInputDialogState extends State<MessageInputDialog> {
   final _textController = TextEditingController();
-  bool _multiline = false;
 
   @override
   void initState() {
     super.initState();
     _textController.text = widget.initialText ?? '';
-    _multiline = _textController.text.contains('\n');
   }
 
   @override
@@ -30,26 +28,10 @@ class _MessageInputDialogState extends State<MessageInputDialog> {
         mainAxisSize: MainAxisSize.min,
         children: [
           TextFormField(
-            key: ValueKey('m-$_multiline'),
             controller: _textController,
-            keyboardType: _multiline ? TextInputType.multiline : TextInputType.text,
-            maxLines: _multiline ? null : 1,
+            keyboardType: TextInputType.multiline,
+            maxLines: null,
             autofocus: true,
-            onFieldSubmitted: _multiline ? null : (s) => context.pop(s),
-          ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: [
-              Text(t.dialogs.messageInput.multiline),
-              Checkbox(
-                value: _multiline,
-                onChanged: (b) {
-                  setState(() {
-                    _multiline = b == true;
-                  });
-                },
-              ),
-            ],
           ),
         ],
       ),
